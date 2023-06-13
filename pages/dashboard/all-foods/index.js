@@ -39,9 +39,10 @@ export default function AllListings() {
   return (
     <CardGrid>
       {!listings && isLoggedIn && <CircularProgress />}
-      {!isLoading && listings?.map((food) => (
+      {!isLoading && listings?.map((food, i) => (
         <ListingCard
           {...food}
+          key={i}
           body={
             <>
               <Box

@@ -193,6 +193,7 @@ export function CreateListingForm({onSubmit: _onSubmit}) {
 
       const res = await database.createFoodListing({
         ...data,
+        // providerId: 
         expiryDate: date,
         img: image
       })

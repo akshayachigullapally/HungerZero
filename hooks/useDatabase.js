@@ -1,9 +1,13 @@
 import {database} from './useAppwrite'
-import { ID } from 'appwrite'
+import { ID, Query } from 'appwrite'
 import useStorage from './useStorage'
+import { GlobalContext } from '../utils/GlobalContextProvider'
+import { useContext } from 'react'
 
 const useDatabase = () => {
     const storage = useStorage()
+    const {user} = useContext(GlobalContext)
+
 
     const createFoodListing = async(data) => {
         try {
@@ -32,7 +36,7 @@ const useDatabase = () => {
         }
     }
 
-    const getAllListings = async() => {
+    const getAllListings = async(userId) => {
         try {
             const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID)
             console.log(listings)
@@ -43,9 +47,24 @@ const useDatabase = () => {
         }
     }
 
+    const getMyListings = async () => {
+        try {
+            console.log(user.userId)
+            const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID,
+                                [Query.equal("providerId", [user.userId])]
+                            )
+            console.log(listings)
+            return listings
+        } catch (error) {
+            console.log(error)
+            return "Can't Fetch"
+        }
+    }
+
     return {
         createFoodListing,
-        getAllListings
+        getAllListings,
+        getMyListings
     }
 }
 

@@ -35,8 +35,10 @@ export default function OverallLayout({ children }) {
             const userInfo = await getAccount()
             setUser({
                 name: userInfo.name,
-                email: userInfo.email
+                email: userInfo.email,
+                userId: userInfo.$id
             })
+            console.log(userInfo)
         }else{
             console.log("User not Logged In")
             router.push('/')

@@ -51,6 +51,7 @@ const Register = () => {
         setUser({
             name: info.name,
             email: info.email,
+            userId: info.$id
             // userType: login.userType
         })
         navigateToDash()

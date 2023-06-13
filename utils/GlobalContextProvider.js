@@ -7,7 +7,8 @@ export const GlobalContextProvider = ({children}) => {
     const [user, setUser] = useState({
         name: "",
         email: "",
-        userType: ""
+        userType: "",
+        userId: ""
     })
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
