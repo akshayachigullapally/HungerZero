@@ -1,8 +1,16 @@
 import {CreateListingForm} from '../../../components/CreateListingForm'
 import { Container, Box, Typography } from '@mui/material'
 import {getAccount} from '../../../hooks/useAccounts'
+import { GlobalContext } from '../../../utils/GlobalContextProvider'
+import { useContext, useEffect } from 'react'
 
 export default function CreateListingPage() {
+
+  const {user} = useContext(GlobalContext)
+
+  useEffect(() => {
+    console.log(user)
+  }, [])
 
   return (
     <Box

@@ -53,6 +53,12 @@ const navList = [
         Icon: ParticipationOfferingsIcon,
         external: false,
       },
+      {
+        label: 'Manage Pickups',
+        href: '/dashboard/manage-requests',
+        Icon: ParticipationOfferingsIcon,
+        external: false,
+      },
     ],
   },
   {

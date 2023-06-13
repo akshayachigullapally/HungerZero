@@ -63,7 +63,7 @@ const useDatabase = () => {
 
     const submitPickupRequest = async (data) => {
         try {
-            // console.log(data)
+            console.log(data)
             const document = await database.getDocument(
                 process.env.NEXT_PUBLIC_DATABASE_ID,
                 process.env.NEXT_PUBLIC_COLLECTION_ID,
@@ -96,9 +96,7 @@ const useDatabase = () => {
 
     const getMyRequestedFoods = async () => {
         try {
-            const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID,
-                [Query.equal("providerId", [user.userId])]
-            )
+            const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID)
 
             const OrderedListings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP,
                                 [Query.equal("providerId", [user.userId])]
@@ -107,7 +105,8 @@ const useDatabase = () => {
             const ordered = []
             const x = OrderedListings.documents.map((res) => {
                 for(let i = 0; i < listings.documents.length; i++){
-                    if(res.foodId === listings.documents[i].$id){
+                    // console.log(res.foodId, listings.documents[i].$id)
+                    if(res.foodId === listings.documents[i].$id && res.providerId === user.userId){
                         ordered.push({
                             ...listings.documents[i],
                             quantity: res.chosenQuantity
@@ -124,12 +123,62 @@ const useDatabase = () => {
         }
     }
 
+    const requestsForMe = async () => {
+        try {
+            const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID,
+                [Query.equal("providerId", [user.userId])]
+            )
+
+            const requestedListings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP)
+            console.log(listings, requestedListings)
+
+            const requested = []
+            const x = listings.documents.map((res) => {
+                for(let i = 0; i < requestedListings.documents.length; i++){
+                    // console.log(res.foodId, listings.documents[i].$id)
+                    if(res.$id === requestedListings.documents[i].foodId && res.providerId === user.userId){
+                        requested.push({
+                            listingId: res.$id,
+                            foodName: res.foodName,
+                            requestedBy: requestedListings.documents[i].providerId,
+                            quantity: requestedListings.documents[i].chosenQuantity,
+                            status: requestedListings.documents[i].status,
+                            requestId: requestedListings.documents[i].$id
+                        })
+                    }
+                    console.log("Nishant")
+                }
+            })
+            console.log(requested)
+            return requested
+        } catch (error) {
+            console.log(error)
+            return "Can't Fetch"
+        }
+    }
+
+    const pickupAction = async(action, requestId) => {
+        try {
+            const updateListing = await database.updateDocument(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP, requestId, {
+                status: action
+            })
+
+            // console.log(updateListing)
+            return true
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
+
     return {
         createFoodListing,
         getAllListings,
         getMyListings,
         submitPickupRequest,
-        getMyRequestedFoods
+        getMyRequestedFoods,
+        requestsForMe,
+        pickupAction
     }
 }
 

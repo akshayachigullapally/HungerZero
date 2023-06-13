@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {
     Button,
@@ -161,6 +161,7 @@ export function CreateListingForm({onSubmit: _onSubmit}) {
 
     const database = useDatabase()
     const router = useRouter()
+    const {user} = useContext(GlobalContext)
 
     const handleDateChange = (event) => {
       console.log(event.target.value)
@@ -188,12 +189,13 @@ export function CreateListingForm({onSubmit: _onSubmit}) {
     const onSubmit = async (data) => {
       // console.log({
       //   ...data,
+      //   providerId: user.userId,
       //   expiryDate: date
       // })
 
       const res = await database.createFoodListing({
         ...data,
-        // providerId: 
+        providerId: user.userId,
         expiryDate: date,
         img: image
       })

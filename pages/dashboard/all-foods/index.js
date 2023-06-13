@@ -68,12 +68,12 @@ function RequestCard({food, disabled = false}) {
   
   const [form, setForm] = useState({})
 
-  const { isLoggedIn } = useContext(GlobalContext)
+  const { isLoggedIn, user } = useContext(GlobalContext)
 
   const handlePickupRequest = async() => {
     const pickup = {
       foodId: food.$id,
-      providerId: food.providerId,
+      providerId: user.userId,
       chosenQuantity: form.chosenQuantity,
       status: "pending"
     }
