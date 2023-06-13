@@ -12,7 +12,7 @@ export default function Card(props) {
         background: 'rgba(255,255,255,0.6)',
         backdropFilter: 'blur(5px)',
         boxShadow: ({shadows}) => shadows[4],
-        ...props.sx,
+        ...props.sx
       }}
     >
       {props.title && (

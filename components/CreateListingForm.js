@@ -211,7 +211,7 @@ export function CreateListingForm({onSubmit: _onSubmit}) {
           {
             !submitted ? (
               <>
-                <Card title="Create new ISPO">
+                <Card title="Create New Food Listing">
                   <Alert severity="info" sx={{my: 1}}>
                     [Hackathon version limitation]
                   </Alert>
