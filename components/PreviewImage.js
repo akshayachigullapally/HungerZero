@@ -3,13 +3,13 @@ export function PreviewImage({ url }) {
     return (
         <div style={{
             height:'150px',
-            width: '280px',
+            width: '330px',
             backgroundColor: 'rgb(22, 255, 153,1)',
             overflow: 'hidden',
             borderRadius: '0.5rem',
             position: 'relative',
             objectFit: 'cover',
-            marginLeft: '2rem'
+            marginLeft: '.3rem'
         }}>
             {url && (
                 <img

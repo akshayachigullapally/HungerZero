@@ -8,6 +8,7 @@ import {
   Portal,
   Backdrop,
   Alert,
+  TextField
 } from '@mui/material'
 import ListingCard, {ListingDetail} from '../../../components/ListingCard'
 import CardGrid from '../../../layouts/CardGrid'
@@ -18,15 +19,12 @@ import useDatabase from '../../../hooks/useDatabase'
 import { useContext } from 'react'
 import { PreviewImage } from '../../../components/PreviewImage'
 
-export default function AllListings() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [alertMsg, setAlert] = useState(null)
-  const [successMsg, setSuccess] = useState(null)
+export default function getAllListings() {
   const [listings, setListings] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const { isLoggedIn } = useContext(GlobalContext)
   const database = useDatabase()
+  const { isLoggedIn } = useContext(GlobalContext)
 
   useEffect(() => {
     database.getAllListings().then((res) => {
@@ -37,12 +35,79 @@ export default function AllListings() {
   }, [])
 
   return (
+    <>
+      {listings?.length === 0 && isLoggedIn && <CircularProgress />}
+      {
+        listings && 
+        <CardGrid>
+          {listings?.map((data) => (
+            <RequestCard
+              food={data}
+              key={data.id}
+              // disabled={!canJoin(ispo.epochEnd)}
+            />
+          ))}
+          {listings?.length === 0 && (
+            <Typography variant="h5" sx={{fontWeight: 'bold'}}>
+              No offerings found
+            </Typography>
+          )}
+        </CardGrid>
+      }
+    </>
+  )
+}
+
+function RequestCard({food, disabled = false}) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [alertMsg, setAlert] = useState(null)
+  const [successMsg, setSuccess] = useState(null)
+  const [quantity, setQuantity] = useState(food.quantity)
+
+  const database = useDatabase()
+  
+  const [form, setForm] = useState({})
+
+  const { isLoggedIn } = useContext(GlobalContext)
+
+  const handlePickupRequest = async() => {
+    const pickup = {
+      foodId: food.$id,
+      providerId: food.providerId,
+      chosenQuantity: form.chosenQuantity,
+      status: "pending"
+    }
+    console.log(pickup)
+
+    const res = await database.submitPickupRequest({
+      ...pickup
+    })
+
+    console.log(res)
+
+    if(res?.status){
+      setSuccess("Successfully Sent Request")
+      setQuantity(res?.data.quantity)
+    }
+
+    if(!res){
+      setAlert("Couldn't make request")
+      console.log(res?.data)
+      food = res?.data
+    }
+
+    console.log(res)
+  }
+
+  const handleChange = (e) => {
+    setForm({...form, [e.target.name]: e.target.value})
+  }
+
+  return (
     <CardGrid>
-      {!listings && isLoggedIn && <CircularProgress />}
-      {!isLoading && listings?.map((food, i) => (
-        <ListingCard
+      <ListingCard
+          sx={{opacity: !disabled ? 1 : 0.6}}
           {...food}
-          key={i}
           body={
             <>
               <Box
@@ -54,47 +119,69 @@ export default function AllListings() {
               >
                 <ListingDetail
                   label="Food"
-                  value={food.foodName}
+                  value={food?.foodName}
                 />
                 <ListingDetail
                   label="Quantity"
-                  value={food.quantity}
+                  value={quantity}
                 />
                 <ListingDetail
                   highlight
                   label="Location"
-                  value={food.location}
+                  value={food?.location}
                 />
                 <ListingDetail
                   highlight
                   label="Quality"
-                  value={food.quality}
+                  value={food?.quality}
                 />
               </Box>
               <Box>
-                <PreviewImage url={food.img} />
+                <PreviewImage url={food?.img} />
               </Box>
             </>
           }
-          key={food.id}
           footerContent={
             <div>
               <Box
                 sx={{
                   display: 'flex',
-                  gap: 2,
+                  gap: 1,
                   '& > *': {width: '100%', mt: 1},
-                  mb: 1,
                 }}
               >
                 <Tooltip title='For the sake of the demonstration, even zero rewards can be "withdrawn"'>
                   <Button variant="gradient" onClick={() => console.log("to be implemented")}>
-                    <Box mr={1} mt={1}>
+                    <Box mr={1}>
                       <InfoIcon fontSize="small" />
                     </Box>
-                    {food.dietaryInfo}
+                    {food?.dietaryInfo}
                   </Button>
                 </Tooltip>
+              </Box>
+              <Box
+                component="form"
+                display="flex"
+                gap={1}
+                justifyContent="space-between"
+                alignItems="flex-end"
+                mb={1}
+              >
+                <TextField
+                  variant="standard"
+                  name="chosenQuantity"
+                  type="number"
+                  label="Quantity Required"
+                  value={form.chosenQuantity || ""}
+                  onChange={handleChange}
+                />
+                <Button
+                  variant="gradient"
+                  onClick={handlePickupRequest}
+                  sx={{width: 'fit-content'}}
+                >
+                  Request
+                </Button>
               </Box>
               {successMsg && (
                 <Alert severity="success" onClose={() => setSuccess(null)}>
@@ -108,31 +195,12 @@ export default function AllListings() {
               )}
             </div>
           }
-        />
-      ))}
+      />
       {!isLoggedIn && (
         <Box>
           <Typography variant="h5" sx={{fontWeight: 'bold'}}>
             You are not logged in
           </Typography>
-        </Box>
-      )}
-      {isLoggedIn && listings?.length === 0 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-            No foods found
-          </Typography>
-          <Button variant="gradient" component={Link} href="/create">
-            Create food{' '}
-          </Button>
         </Box>
       )}
       <Portal>

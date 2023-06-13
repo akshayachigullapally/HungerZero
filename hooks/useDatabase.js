@@ -61,10 +61,75 @@ const useDatabase = () => {
         }
     }
 
+    const submitPickupRequest = async (data) => {
+        try {
+            // console.log(data)
+            const document = await database.getDocument(
+                process.env.NEXT_PUBLIC_DATABASE_ID,
+                process.env.NEXT_PUBLIC_COLLECTION_ID,
+                data.foodId
+            )
+
+            const updatedQuantity = document.quantity - data.chosenQuantity
+
+            const updateListing = await database.updateDocument(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID, data.foodId, {
+                quantity: updatedQuantity
+            })
+            console.log(updateListing)
+
+            const pickup = await database.createDocument(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP,
+                ID.unique(),
+                {
+                    ...data
+                }
+            )
+            console.log(pickup)
+            return {
+                status: true,
+                data: updateListing
+            }
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
+
+    const getMyRequestedFoods = async () => {
+        try {
+            const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID,
+                [Query.equal("providerId", [user.userId])]
+            )
+
+            const OrderedListings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP,
+                                [Query.equal("providerId", [user.userId])]
+                           )
+            console.log(listings, OrderedListings)
+            const ordered = []
+            const x = OrderedListings.documents.map((res) => {
+                for(let i = 0; i < listings.documents.length; i++){
+                    if(res.foodId === listings.documents[i].$id){
+                        ordered.push({
+                            ...listings.documents[i],
+                            quantity: res.chosenQuantity
+                        })
+                    }
+                    console.log("Nishant")
+                }
+            })
+            console.log(ordered)
+            return ordered
+        } catch (error) {
+            console.log(error)
+            return "Can't Fetch"
+        }
+    }
+
     return {
         createFoodListing,
         getAllListings,
-        getMyListings
+        getMyListings,
+        submitPickupRequest,
+        getMyRequestedFoods
     }
 }
 
