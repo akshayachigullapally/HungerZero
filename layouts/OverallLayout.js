@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react"
 import { deleteSession, getSession, getAccount } from "../hooks/useAccounts"
 import { GlobalContext } from "../utils/GlobalContextProvider"
 import { useRouter } from "next/router"
+import Sidebar from "../components/Sidebar"
 
 const appTopBar = 64
 const sideBarWidth = 260
@@ -29,11 +30,9 @@ export default function OverallLayout({ children }) {
 
     const handleAuth = async () => {
         const session = await getSession()
-        console.log(session)
         if(session){
             setIsLoggedIn(true)
             const userInfo = await getAccount()
-            console.log(userInfo)
             setUser({
                 name: userInfo.name,
                 email: userInfo.email
@@ -60,6 +59,10 @@ export default function OverallLayout({ children }) {
                 overflow: 'hidden',
             }}
         >
+            {
+                (router.pathname !== "/" && router.pathname !== '/auth/login' && router.pathname !== '/auth/register')
+                 && <Sidebar width={sideBarWidth} />
+            }
             <Box
                 sx={{
                     position: 'absolute',

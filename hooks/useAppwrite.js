@@ -1,10 +1,20 @@
-import { Client, Account } from "appwrite"
+import { Client, Account, Databases, Storage } from "appwrite"
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 const client = new Client()
 
 const account = new Account(client)
+const database = new Databases(client)
+const storage = new Storage(client)
+
+// console.log(process.env.NEXT_PUBLIC_BUCKET_ID, "nisant  process")
 
 client.setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject('6485a6a75d75a2495193')
+    .setProject(process.env.NEXT_PUBLIC_PROJECT_ID)
 
-export default account
+export {
+    account,
+    database,
+    storage
+}

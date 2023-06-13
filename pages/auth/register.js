@@ -1,16 +1,19 @@
 import React, { useContext, useState } from 'react'
 import { TextField, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import Link from 'next/link'
-import {registerUser} from '../../hooks/useAccounts'
+import {registerUser, getAccount} from '../../hooks/useAccounts'
 import { GlobalContext } from '../../utils/GlobalContextProvider'
+import { useRouter } from 'next/router'
 
 const Register = () => {
   const [userType, setUserType] = useState('user')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(false)
 
   const {setIsLoggedIn, setUser} = useContext(GlobalContext)
+  const router = useRouter()
 
   const handleUserTypeChange = (event) => {
     setUserType(event.target.value)
@@ -28,18 +31,30 @@ const Register = () => {
     setPassword(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const navigateToDash = () => {
+    router.push('/dashboard')
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
     // Perform registration logic here
     console.log(userType, name, email, password)
-    registerUser(name, email, password, userType)
-    
-    setIsLoggedIn(true)
-    setUser({
-        name: name,
-        email: email,
-        userType: userType
-    })
+    const register = await registerUser(name, email, password, userType)
+    console.log(register)
+
+    if(register){
+        setError(true)
+    }else{
+        setError(false)
+        setIsLoggedIn(true)
+        const info = await getAccount()
+        setUser({
+            name: info.name,
+            email: info.email,
+            // userType: login.userType
+        })
+        navigateToDash()
+    }
   }
 
   return (

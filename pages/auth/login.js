@@ -34,6 +34,7 @@ const Login = () => {
 
     console.log(email, password)
 
+    console.log(process.env.PROJECT_ID)
     const login = await loginUser(email, password)
     console.log(login)
 
