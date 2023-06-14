@@ -5,6 +5,8 @@ import theme from '../utils/theme'
 import '../styles/globals.css'
 import OverallLayout from "../layouts/OverallLayout"
 import { GlobalContextProvider } from "../utils/GlobalContextProvider"
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({Component, pageProps}) {
     return (
@@ -33,6 +35,7 @@ function MyApp({Component, pageProps}) {
                 <OverallLayout>
                     <CssBaseline />
                     <Component {...pageProps} />
+                    <ToastContainer />
                 </OverallLayout>
             </ThemeProvider>
         </GlobalContextProvider>

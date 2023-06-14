@@ -99,7 +99,7 @@ const useDatabase = () => {
             const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID)
 
             const OrderedListings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP,
-                                [Query.equal("providerId", [user.userId])]
+                                [ Query.equal("providerId", [user.userId]) ]
                            )
             console.log(listings, OrderedListings)
             const ordered = []
@@ -109,7 +109,8 @@ const useDatabase = () => {
                     if(res.foodId === listings.documents[i].$id && res.providerId === user.userId){
                         ordered.push({
                             ...listings.documents[i],
-                            quantity: res.chosenQuantity
+                            quantity: res.chosenQuantity,
+                            status: res.status
                         })
                     }
                     console.log("Nishant")

@@ -33,6 +33,7 @@ import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
 import { CoverImage } from './CoverImage'
 import useDatabase from '../hooks/useDatabase'
+import { toast } from 'react-toastify'
 
 const FormSelect = ({name, label, InputProps, defaultValue, ...otherProps}) => {
     const {
@@ -204,8 +205,30 @@ export function CreateListingForm({onSubmit: _onSubmit}) {
 
       if(res){
         setSubmitted(true)
+
+        toast.success(`Successfully Listed Food!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+        
       }else{
         setSubmitted(false)
+        toast.error(`Error Listing Food!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
       }
     }
 

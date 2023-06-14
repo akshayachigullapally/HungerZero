@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import { GlobalContext } from '../../../utils/GlobalContextProvider'
 import { useContext } from 'react'
 import useDatabase from '../../../hooks/useDatabase'
+import { toast } from 'react-toastify'
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein }
@@ -45,19 +46,37 @@ export default function BasicTable() {
     }, [])
 
     const handleAction = (action, requestId) => {
+
         database.pickupAction(action, requestId).then((res) => {
             console.log(res)
             if(res){
+                console.log(requests)
                 const newRequests = requests.map((r) => {
                     if(r.requestId === requestId){
                         return {
                             ...r,
                             status: action
                         }
+                    }else{
+                        return {
+                            ...r
+                        }
                     }
                 })
-
+                console.log(newRequests)
                 setRequests(newRequests)
+                
+                toast.success(`You ${action} Food Id - ${requestId}`, {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                })
+                  
             }
         }).catch((e) => {
             console.log(e)
@@ -85,17 +104,17 @@ export default function BasicTable() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.listingId}
+                  {row?.listingId}
                 </TableCell>
-                <TableCell align="right">{row.foodName}</TableCell>
-                <TableCell align="right">{row.requestedBy}</TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
-                <TableCell align="right">{row.status}</TableCell>
+                <TableCell align="right">{row?.foodName}</TableCell>
+                <TableCell align="right">{row?.requestedBy}</TableCell>
+                <TableCell align="right">{row?.quantity}</TableCell>
+                <TableCell align="right">{row?.status}</TableCell>
                 <TableCell align="right">
                 <Box>
-                    <Button onClick={() => handleAction("approved", row.requestId)}>Approve</Button>
-                    <Button onClick={() => handleAction("rejected", row.requestId)}>Reject</Button>
-                    <Button onClick={() => handleAction("delivered", row.requestId)}>Deliver</Button>
+                    <Button onClick={() => handleAction("approved", row?.requestId)}>Approve</Button>
+                    <Button onClick={() => handleAction("rejected", row?.requestId)}>Reject</Button>
+                    <Button onClick={() => handleAction("delivered", row?.requestId)}>Deliver</Button>
                 </Box>
                 </TableCell>
               </TableRow>

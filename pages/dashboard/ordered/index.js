@@ -31,7 +31,8 @@ export default function Ordered() {
   useEffect(() => {
     database.getMyRequestedFoods().then((res) => {
       console.log(res)
-      setListings(res)
+      setListings(res.filter((r) => r.status !== "delivered"))
+      // setListings(res)
       setIsLoading(false)
     }).catch((e) => {
       console.log(e)
@@ -97,6 +98,11 @@ export default function Ordered() {
                     {food.dietaryInfo}
                   </Button>
                 </Tooltip>
+              </Box>
+              <Box>
+                <Alert severity={food.status === 'pending' ? 'info' : food.status === 'rejected' ? 'error' : 'success'} sx={{my: 1, justifyContent: 'center'}}>
+                  {food.status}
+                </Alert>
               </Box>
               {successMsg && (
                 <Alert severity="success" onClose={() => setSuccess(null)}>

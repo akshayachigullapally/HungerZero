@@ -18,6 +18,7 @@ import { GlobalContext } from '../../../utils/GlobalContextProvider'
 import useDatabase from '../../../hooks/useDatabase'
 import { useContext } from 'react'
 import { PreviewImage } from '../../../components/PreviewImage'
+import { toast } from 'react-toastify'
 
 export default function getAllListings() {
   const [listings, setListings] = useState([])
@@ -88,12 +89,34 @@ function RequestCard({food, disabled = false}) {
     if(res?.status){
       setSuccess("Successfully Sent Request")
       setQuantity(res?.data.quantity)
+
+      toast.success(`Request for Food submitted successfully`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
     }
 
     if(!res){
       setAlert("Couldn't make request")
       console.log(res?.data)
       food = res?.data
+
+      toast.error(`Error while requesting for food`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
     }
 
     console.log(res)

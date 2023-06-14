@@ -4,6 +4,7 @@ import Link from 'next/link'
 import {registerUser, getAccount} from '../../hooks/useAccounts'
 import { GlobalContext } from '../../utils/GlobalContextProvider'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
 const Register = () => {
   const [userType, setUserType] = useState('user')
@@ -44,6 +45,16 @@ const Register = () => {
 
     if(register){
         setError(true)
+        toast.error("Couldn't Registered", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
     }else{
         setError(false)
         setIsLoggedIn(true)
@@ -53,6 +64,16 @@ const Register = () => {
             email: info.email,
             userId: info.$id
             // userType: login.userType
+        })
+        toast.error("Registered Successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         })
         navigateToDash()
     }

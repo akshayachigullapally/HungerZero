@@ -7,6 +7,7 @@ import { deleteSession, getSession, getAccount } from "../hooks/useAccounts"
 import { GlobalContext } from "../utils/GlobalContextProvider"
 import { useRouter } from "next/router"
 import Sidebar from "../components/Sidebar"
+import { toast } from 'react-toastify'
 
 const appTopBar = 64
 const sideBarWidth = 260
@@ -25,6 +26,18 @@ export default function OverallLayout({ children }) {
             name: "",
             email: ""
         })
+
+        toast.success("Logged Out Successfully", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          })
+
         router.push('/')
     }
 

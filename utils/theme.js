@@ -5,7 +5,7 @@ export const generateGradient = (alphaLeft, alphaRight) => {
 }
 
 const theme = createTheme({
-    componenets: {
+    components: {
         MuiChip: {
             variants: [
                 {
@@ -28,6 +28,29 @@ const theme = createTheme({
                         overflow: "hidden",
                         color: "#191919",
                         border: "1px solid #191919",
+                        '&:after': {
+                            backgroundImage: generateGradient(0.6, 0.6),
+                            height: '200%',
+                            // positions button outside of the viewport
+                            left: '-121%',
+                            position: 'absolute',
+                            top: '-50%',
+                            transform: 'skewX(0deg)',
+                            transition: 'all .35s',
+                            width: 0,
+                            zIndex: -1,
+                            content: "''",
+                          },
+                          '&:hover': {
+                            borderColor: 'rgba(159, 238, 255, 0.6)',
+                            '&:after': {
+                              content: "''",
+                              // brings pseudo element to the button viewport
+                              left: '-10%',
+                              transform: 'skewX(-30deg)',
+                              width: '120%',
+                            },
+                        }
                     }
                 },
                 {
@@ -35,7 +58,30 @@ const theme = createTheme({
                     style: {
                         overflow: 'hidden',
                         color: '#191919',
-                        backgroundImage: generateGradient(0.6, 0.6)
+                        backgroundImage: generateGradient(0.6, 0.6),
+                        '&:after': {
+                            backgroundImage: generateGradient(0.6, 0.6),
+                            height: '200%',
+                            // positions button outside of the viewport
+                            left: '-121%',
+                            position: 'absolute',
+                            top: '-50%',
+                            transform: 'skewX(0deg)',
+                            transition: 'all .35s',
+                            width: 0,
+                            zIndex: -1,
+                            content: "''",
+                          },
+                          '&:hover': {
+                            borderColor: 'rgba(159, 238, 255, 0.6)',
+                            '&:after': {
+                              content: "''",
+                              // brings pseudo element to the button viewport
+                              left: '-10%',
+                              transform: 'skewX(-30deg)',
+                              width: '120%',
+                            },
+                        }
                     }
                 }
             ]
@@ -45,7 +91,36 @@ const theme = createTheme({
                 color: 'pink',
                 root: {
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    '&:after': {
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        top: 0,
+                        left: 0,
+                        backgroundImage: generateGradient(1, 1),
+                        transition: 'all .5s ease-in',
+                        opacity: 0,
+                        content: "''",
+                        zIndex: -1,
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: 'transparent',
+                        '&:hover': {
+                          backgroundColor: 'transparent',
+                        },
+                        '&:after': {
+                          opacity: 0.2,
+                          content: "''",
+                        },
+                      },
+                      '&:hover': {
+                        backgroundColor: 'transparent',
+                        '&:after': {
+                          opacity: 0.4,
+                          content: "''",
+                        },
+                    },
                 }
             }
         }

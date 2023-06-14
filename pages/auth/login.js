@@ -4,6 +4,7 @@ import Link from 'next/link'
 import {loginUser, getAccount} from '../../hooks/useAccounts'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../../utils/GlobalContextProvider'
+import { toast } from 'react-toastify'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -33,13 +34,21 @@ const Login = () => {
     event.preventDefault()
 
     console.log(email, password)
-
-    console.log(process.env.PROJECT_ID)
     const login = await loginUser(email, password)
     console.log(login)
 
     if(login){
         setError(true)
+        toast.error("Bad credentials", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
     }else{
         setError(false)
         setIsLoggedIn(true)
@@ -49,6 +58,16 @@ const Login = () => {
             email: info.email,
             userId: info.$id
             // userType: login.userType
+        })
+        toast.success("Logged In", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         })
         navigateToDash()
     }
