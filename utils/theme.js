@@ -1,8 +1,7 @@
 import { createTheme } from "@mui/material"
 
-export const generateGradient = (alphaLeft, alphaRight) => {
+export const generateGradient = (alphaLeft, alphaRight) => 
     `linear-gradient(103.7427deg, rgba(159, 238, 255, ${alphaLeft}) 30%, rgba(186, 117, 255, ${alphaRight}) 100%)`
-}
 
 const theme = createTheme({
     components: {

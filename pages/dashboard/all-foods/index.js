@@ -74,7 +74,7 @@ function RequestCard({food, disabled = false}) {
   const handlePickupRequest = async() => {
     const pickup = {
       foodId: food.$id,
-      providerId: user.userId,
+      requestedBy: user.email,
       chosenQuantity: form.chosenQuantity,
       status: "pending"
     }

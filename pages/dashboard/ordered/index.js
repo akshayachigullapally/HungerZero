@@ -136,10 +136,10 @@ export default function Ordered() {
           }}
         >
           <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-            No foods found
+            No food ordered yet
           </Typography>
-          <Button variant="gradient" component={Link} href="/create">
-            Create food{' '}
+          <Button variant="gradient" component={Link} href="/dashboard/all-foods">
+            View Available Foods{' '}
           </Button>
         </Box>
       )}

@@ -130,10 +130,10 @@ export default function AllListings() {
           }}
         >
           <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-            No foods found
+            No Donations Yet
           </Typography>
-          <Button variant="gradient" component={Link} href="/create">
-            Create food{' '}
+          <Button variant="gradient" component={Link} href="/dashboard/donate">
+            Click to Donate{' '}
           </Button>
         </Box>
       )}

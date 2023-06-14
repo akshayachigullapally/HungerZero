@@ -45,9 +45,9 @@ export default function BasicTable() {
         }).catch((e) => console.log(e))
     }, [])
 
-    const handleAction = (action, requestId) => {
+    const handleAction = (action, requestId, requestedBy) => {
 
-        database.pickupAction(action, requestId).then((res) => {
+        database.pickupAction(action, requestId, requestedBy).then((res) => {
             console.log(res)
             if(res){
                 console.log(requests)
@@ -98,7 +98,7 @@ export default function BasicTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {requests.map((row, i) => (
+            {requests?.map((row, i) => (
               <TableRow
                 key={i}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -112,9 +112,9 @@ export default function BasicTable() {
                 <TableCell align="right">{row?.status}</TableCell>
                 <TableCell align="right">
                 <Box>
-                    <Button onClick={() => handleAction("approved", row?.requestId)}>Approve</Button>
-                    <Button onClick={() => handleAction("rejected", row?.requestId)}>Reject</Button>
-                    <Button onClick={() => handleAction("delivered", row?.requestId)}>Deliver</Button>
+                    <Button onClick={() => handleAction("approved", row?.requestId, row?.requestedBy)}>Approve</Button>
+                    <Button onClick={() => handleAction("rejected", row?.requestId, row?.requestedBy)}>Reject</Button>
+                    <Button onClick={() => handleAction("delivered", row?.requestId, row?.requestedBy)}>Deliver</Button>
                 </Box>
                 </TableCell>
               </TableRow>

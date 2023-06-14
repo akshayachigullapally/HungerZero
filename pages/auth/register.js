@@ -65,7 +65,7 @@ const Register = () => {
             userId: info.$id
             // userType: login.userType
         })
-        toast.error("Registered Successfully", {
+        toast.success("Registered Successfully", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,

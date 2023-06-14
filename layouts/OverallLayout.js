@@ -72,6 +72,18 @@ export default function OverallLayout({ children }) {
                 minWidth: '100vw',
                 position: 'relative',
                 overflow: 'hidden',
+                '&:before': {
+                    content: "''",
+                    position: 'absolute',
+                    top: 0,
+                    background: 'gray.400',
+                    backgroundImage: `url(/shape.svg)`,
+                    backgroundSize: 'contain',
+                    width: '100%',
+                    height: '100%',
+                    zIndex: -1,
+                    opacity: 0.4,
+                }
             }}
         >
             {
@@ -111,6 +123,9 @@ export default function OverallLayout({ children }) {
                                                     gap: 1, 
                                                     textDecoration: 'underline',
                                                     color: ({palette}) => palette.info.main,
+                                                    '&:hover': {
+                                                        color: ({palette}) => palette.info.dark,
+                                                    },
                                                 }}
                                                 // href={}
                                             >
@@ -155,7 +170,7 @@ export default function OverallLayout({ children }) {
                     zIndex: 1,
                     px: 1,
                     height: '100%',
-                    background: 'rgba(255, 255, 255, 0.1',
+                    background: 'rgba(255, 255, 255, 0.1)',
                     backdropFilter: 'blur(60px)',
                     pt: `${appTopBar}px`
                 }}

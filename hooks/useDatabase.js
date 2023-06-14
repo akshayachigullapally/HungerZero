@@ -1,12 +1,14 @@
 import {database} from './useAppwrite'
 import { ID, Query } from 'appwrite'
 import useStorage from './useStorage'
+import useFunctions from './useFunctions'
 import { GlobalContext } from '../utils/GlobalContextProvider'
 import { useContext } from 'react'
 
 const useDatabase = () => {
     const storage = useStorage()
     const {user} = useContext(GlobalContext)
+    const functions = useFunctions()
 
 
     const createFoodListing = async(data) => {
@@ -61,6 +63,8 @@ const useDatabase = () => {
         }
     }
 
+
+
     const submitPickupRequest = async (data) => {
         try {
             console.log(data)
@@ -99,14 +103,14 @@ const useDatabase = () => {
             const listings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID)
 
             const OrderedListings = await database.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP,
-                                [ Query.equal("providerId", [user.userId]) ]
+                                [ Query.equal("requestedBy", [user.email]) ]
                            )
             console.log(listings, OrderedListings)
             const ordered = []
             const x = OrderedListings.documents.map((res) => {
                 for(let i = 0; i < listings.documents.length; i++){
                     // console.log(res.foodId, listings.documents[i].$id)
-                    if(res.foodId === listings.documents[i].$id && res.providerId === user.userId){
+                    if(res.foodId === listings.documents[i].$id && res.requestedBy === user.email){
                         ordered.push({
                             ...listings.documents[i],
                             quantity: res.chosenQuantity,
@@ -141,7 +145,7 @@ const useDatabase = () => {
                         requested.push({
                             listingId: res.$id,
                             foodName: res.foodName,
-                            requestedBy: requestedListings.documents[i].providerId,
+                            requestedBy: requestedListings.documents[i].requestedBy,
                             quantity: requestedListings.documents[i].chosenQuantity,
                             status: requestedListings.documents[i].status,
                             requestId: requestedListings.documents[i].$id
@@ -158,11 +162,27 @@ const useDatabase = () => {
         }
     }
 
-    const pickupAction = async(action, requestId) => {
+    const pickupAction = async(action, requestId, requestedBy) => {
         try {
             const updateListing = await database.updateDocument(process.env.NEXT_PUBLIC_DATABASE_ID, process.env.NEXT_PUBLIC_COLLECTION_ID_PICKUP, requestId, {
                 status: action
             })
+
+            const data = {
+                pickupId : requestId,
+                status: action,
+                email: requestedBy
+            }
+
+            console.log(data)
+
+            if(updateListing){
+                const pickupUpdate = await functions.sendPickupUpdate(data)
+                console.log(pickupUpdate)
+                return true
+            }else{
+                return false
+            }
 
             // console.log(updateListing)
             return true
