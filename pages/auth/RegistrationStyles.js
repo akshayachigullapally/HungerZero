@@ -4,7 +4,7 @@ const textLight = "#eaf2f4"
 const textDark = "#0D0D0D"
 const borderLight = "rgba(206,212,218, .993)"
 
-export const register = theme => ({
+const register = theme => ({
   main: {
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(4),
@@ -146,3 +146,5 @@ export const register = theme => ({
     opacity: 0.7
   }
 })
+
+export default register
