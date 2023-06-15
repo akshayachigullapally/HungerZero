@@ -27,7 +27,7 @@ const Login = () => {
   }
 
   const navigateToDash = () => {
-    router.push('/dashboard')
+    router.push('/dashboard/all-foods')
   }
 
   const handleSubmit = async (event) => {

@@ -82,13 +82,15 @@ export default function OverallLayout({ children }) {
                     width: '100%',
                     height: '100%',
                     zIndex: -1,
-                    opacity: 0.4,
+                    opacity: 0.5,
                 }
             }}
         >
             {
-                (router.pathname !== "/" && router.pathname !== '/auth/login' && router.pathname !== '/auth/register')
-                 && <Sidebar width={sideBarWidth} />
+                /* (router.pathname !== "/" && router.pathname !== '/auth/login' && router.pathname !== '/auth/register')
+                 && <Sidebar width={sideBarWidth} /> */
+
+                 <Sidebar width={sideBarWidth} />
             }
             <Box
                 sx={{
@@ -104,18 +106,13 @@ export default function OverallLayout({ children }) {
              <AppBar color="transparent" sx={{boxShadow: 'none'}}>
                 <Toolbar sx={{justifyContent: 'flex-end', height: appTopBar}}>
                     <Box display='flex' gap={2} alignItems='center' mr={2}>
-                        <Typography variant="body2" fontWeight='bold'>
-                            <Link href="/">
-                                Home
-                            </Link>
-                        </Typography>
                         {
                             user && (
                                 <>
                                     <InfoItem
-                                        label='Address'
+                                        label='Email'
                                         value={
-                                            <MuiLink
+                                            <Link
                                                 target="_blank"
                                                 sx={{
                                                     display: 'inline-flex',
@@ -127,11 +124,10 @@ export default function OverallLayout({ children }) {
                                                         color: ({palette}) => palette.info.dark,
                                                     },
                                                 }}
-                                                // href={}
+                                                href="/"
                                             >
-                                                {"User"}
-                                                <ExternalIcon fontSize='inherit' />
-                                            </MuiLink>
+                                                {user?.email}
+                                            </Link>
                                         }
                                     />
                                 </>

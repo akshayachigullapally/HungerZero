@@ -40,7 +40,7 @@ export default function Home() {
             gap: 1,
           }}
         >
-          <img src="../assets/images/logo.png" alt="HungerZero Logo" height={60} width={60} />
+          <img src="/logo.png" alt="HungerZero Logo" height={60} width={60} />
           <b>HungerZero</b>
         </Typography>
 
