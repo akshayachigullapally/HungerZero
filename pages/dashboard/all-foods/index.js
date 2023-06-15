@@ -16,9 +16,11 @@ import {useEffect, useState} from 'react'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
 import { GlobalContext } from '../../../utils/GlobalContextProvider'
 import useDatabase from '../../../hooks/useDatabase'
+import { client } from '../../../hooks/useAppwrite'
 import { useContext } from 'react'
 import { PreviewImage } from '../../../components/PreviewImage'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 export default function getAllListings() {
   const [listings, setListings] = useState([])
@@ -70,6 +72,7 @@ function RequestCard({food, disabled = false}) {
   const [form, setForm] = useState({})
 
   const { isLoggedIn, user } = useContext(GlobalContext)
+  const router = useRouter()
 
   const handlePickupRequest = async() => {
     const pickup = {
@@ -126,6 +129,24 @@ function RequestCard({food, disabled = false}) {
     setForm({...form, [e.target.name]: e.target.value})
   }
 
+  
+
+  useEffect(() => {
+    if(!isLoggedIn){
+      toast.error("You need to login First", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
+      router.push("/")
+    }
+  }, [])
+
   return (
     <CardGrid>
       <ListingCard
@@ -169,18 +190,33 @@ function RequestCard({food, disabled = false}) {
               <Box
                 sx={{
                   display: 'flex',
+                  mb: '.1rem',
                   gap: 1,
                   '& > *': {width: '100%', mt: 1},
                 }}
               >
-                <Tooltip title='For the sake of the demonstration, even zero rewards can be "withdrawn"'>
-                  <Button variant="gradient" onClick={() => console.log("to be implemented")}>
-                    <Box mr={1}>
-                      <InfoIcon fontSize="small" />
-                    </Box>
-                    {food?.dietaryInfo}
-                  </Button>
-                </Tooltip>
+                <Button variant="gradient" onClick={() => console.log("to be implemented")}>
+                  <Box mr={1}>
+                    <InfoIcon fontSize="small" />
+                  </Box>
+                  {food?.dietaryInfo}
+                </Button>
+              </Box>
+              <Box
+                sx={{
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  mb: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  mt: '.5rem'
+                }}
+              >
+                <Typography variant="string" sx={{mr: '1rem'}}>Expiry Date: </Typography>
+                <Typography variant="string" fontWeight="bold">
+                  {food?.expiryDate}{' '}
+                </Typography>
               </Box>
               <Box
                 component="form"

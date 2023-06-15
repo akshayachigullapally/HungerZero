@@ -3,13 +3,29 @@ import { Container, Box, Typography } from '@mui/material'
 import {getAccount} from '../../../hooks/useAccounts'
 import { GlobalContext } from '../../../utils/GlobalContextProvider'
 import { useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
 export default function CreateListingPage() {
 
-  const {user} = useContext(GlobalContext)
+  const {user, isLoggedIn} = useContext(GlobalContext)
+  const router = useRouter()
 
   useEffect(() => {
     console.log(user)
+    if(!isLoggedIn){
+      toast.error("You need to login First", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
+      router.push("/")
+    }
   }, [])
 
   return (

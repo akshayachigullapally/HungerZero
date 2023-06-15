@@ -59,57 +59,23 @@ export default function Home() {
           <Button
             variant="gradient-solid"
             component={Link}
-            href="/participate"
+            href="/dashboard/donate"
             size="large"
             sx={{width: 200, height: 50, fontSize: 18}}
           >
-            Participate
+            Donate Food
           </Button>
           <br />
           <Button
             variant="gradient"
             component={Link}
-            href="create"
+            href="/dashboard/all-foods"
             sx={{width: 200, height: 50, fontSize: 18}}
           >
-            Donate Food
+            Request Food
           </Button>
         </Box>
         <Divider sx={{my: 2}} />
-        <Box sx={{textAlign: 'left', mb: 2}}>
-          <div>
-            <Typography variant="h6">
-              <b>More</b>
-            </Typography>
-            To donate your food, you can use{' '}
-            <MuiLink
-              color="info.main"
-              target="_blank"
-              href="/"
-              underline="hover"
-            >
-              Guidelines
-            </MuiLink>
-            .
-          </div>
-        </Box>
-        <Divider sx={{my: 2}} />
-        <MuiLink
-          underline="hover"
-          variant="h6"
-          // href={learnMoreLink}
-          target="_blank"
-          sx={{
-            color: 'info.main',
-            cursor: 'pointer',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5em',
-          }}
-        >
-          Learn more about HungerZero
-          <ExternalIcon fontSize="inherit" />
-        </MuiLink>
       </div>
     </Box>
   )

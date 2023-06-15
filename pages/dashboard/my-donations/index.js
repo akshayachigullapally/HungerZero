@@ -89,14 +89,28 @@ export default function AllListings() {
                   mb: 1,
                 }}
               >
-                <Tooltip title='For the sake of the demonstration, even zero rewards can be "withdrawn"'>
-                  <Button variant="gradient" onClick={() => console.log("to be implemented")}>
+                <Button variant="gradient" onClick={() => console.log("to be implemented")}>
                     <Box mr={1} mt={1}>
                       <InfoIcon fontSize="small" />
                     </Box>
                     {food.dietaryInfo}
                   </Button>
-                </Tooltip>
+              </Box>
+              <Box
+                sx={{
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  mb: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  mt: '.5rem'
+                }}
+              >
+                <Typography variant="string" sx={{mr: '1rem'}}>Expiry Date: </Typography>
+                <Typography variant="string" fontWeight="bold">
+                  {food?.expiryDate}{' '}
+                </Typography>
               </Box>
               {successMsg && (
                 <Alert severity="success" onClose={() => setSuccess(null)}>

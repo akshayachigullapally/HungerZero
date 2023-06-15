@@ -20,6 +20,7 @@ import {
   AccountBox as OverviewIcon,
   SettingsApplications as MyISPOIcon,
   Launch as ExternalIcon,
+  AddCircleIcon
 } from '@mui/icons-material'
 // import {learnMoreLink} from '../constants'
 import {generateGradient} from '../utils/theme'
@@ -50,7 +51,7 @@ const navList = [
       {
         label: 'Donate',
         href: '/dashboard/donate',
-        Icon: ParticipationOfferingsIcon,
+        Icon: CreateISPOIcon,
         external: false,
       },
       {
@@ -67,7 +68,7 @@ const navList = [
       {
         label: 'Foods',
         href: '/dashboard/all-foods',
-        Icon: CreateISPOIcon,
+        Icon: ParticipationOfferingsIcon,
         external: false,
       },
       {
@@ -183,7 +184,7 @@ export default function Sidebar(props) {
         variant="caption"
         textAlign="center"
       >
-        Wanna Donate to HungerZero{' '}
+        Wanna Contribute to HungerZero{' '}
         <MuiLink
           underline="hover"
           href="https://github.com/shrinishant"
