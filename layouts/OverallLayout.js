@@ -19,8 +19,8 @@ export default function OverallLayout({ children }) {
 
     const login = () => {}
 
-    const logout = () => {
-        deleteSession()
+    const logout = async () => {
+        await deleteSession()
         setIsLoggedIn(false)
         setUser({
             name: "",
