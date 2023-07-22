@@ -17,6 +17,7 @@ import { GlobalContext } from '../../../utils/GlobalContextProvider'
 import useDatabase from '../../../hooks/useDatabase'
 import { useContext } from 'react'
 import { PreviewImage } from '../../../components/PreviewImage'
+import { toast } from 'react-toastify'
 
 export default function Ordered() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -38,6 +39,17 @@ export default function Ordered() {
       }).catch((e) => {
         console.log(e)
         setIsLoading(false)
+      })
+    }else{
+      toast.error("You need to login First", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       })
     }
   }, [isLoggedIn])
