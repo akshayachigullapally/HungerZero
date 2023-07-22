@@ -8,11 +8,9 @@ import { toast } from 'react-toastify'
 
 export default function CreateListingPage() {
 
-  const {user, isLoggedIn} = useContext(GlobalContext)
-  const router = useRouter()
+  const {isLoggedIn} = useContext(GlobalContext)
 
   useEffect(() => {
-    console.log(user)
     if(!isLoggedIn){
       toast.error("You need to login First", {
         position: "top-right",
@@ -24,9 +22,8 @@ export default function CreateListingPage() {
         progress: undefined,
         theme: "light",
       })
-      router.push("/")
     }
-  }, [])
+  }, [isLoggedIn])
 
   return (
     <Box
@@ -38,22 +35,31 @@ export default function CreateListingPage() {
       }}
     >
       <Container maxWidth="sm">
-        {false && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: '10px',
-              pb: 4,
-            }}
-          >
-            <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-              You are not logged in
-            </Typography>
-          </Box>
-        )}
-        {true && <CreateListingForm />}
+        {
+          !isLoggedIn 
+        
+          ?
+
+          (
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                gap: '10px',
+                pb: 4,
+              }}
+            >
+              <Typography variant="h5" sx={{fontWeight: 'bold'}}>
+                You are not logged in
+              </Typography>
+            </Box>
+          )
+
+          :
+
+          <CreateListingForm />
+        }
       </Container>
     </Box>
   )

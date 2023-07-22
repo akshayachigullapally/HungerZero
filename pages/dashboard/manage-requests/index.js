@@ -23,16 +23,32 @@ const darkTheme = createTheme({
 
 export default function ManageRequests() {
     const database = useDatabase()
-    const {user, isLoggedIn} = useContext(GlobalContext)
+    const {isLoggedIn} = useContext(GlobalContext)
+    const [isLoading, setIsLoading] = useState(true)
     const [requests, setRequests] = useState([])
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
         if(isLoggedIn){
             database.requestsForMe().then((res) => {
-              console.log(res)
               setRequests(res)
-          }).catch((e) => console.log(e))
+              setIsLoading(false)
+          }).catch((e) => {
+              setIsLoading(false)
+              console.log(e)
+          })
+        }
+        else{
+          toast.error("You need to login First", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          })
         }
     }, [isLoggedIn])
 
@@ -86,8 +102,18 @@ export default function ManageRequests() {
           minHeight: '100%',
         }}
       >
+          {isLoading && isLoggedIn && <CircularProgress />}
+
+          {!isLoggedIn && (
+            <Box alignItems="center">
+              <Typography variant="h5" sx={{fontWeight: 'bold'}}>
+                You are not logged in
+              </Typography>
+            </Box>
+          )}
+
           {
-            requests?.length > 0 && 
+            requests?.length > 0 &&
 
             <ThemeProvider alignItems="center" theme={darkTheme}>
               <TableContainer component={Paper}>
@@ -129,14 +155,10 @@ export default function ManageRequests() {
               </TableContainer>
             </ThemeProvider>
           }
-          {!isLoggedIn && (
-            <Box alignItems="center">
-              <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-                You are not logged in
-              </Typography>
-            </Box>
-          )}
-          {isLoggedIn && requests?.length === 0 && (
+
+          {
+            !isLoading &&
+
             <Box
               sx={{
                 display: 'flex',
@@ -153,7 +175,8 @@ export default function ManageRequests() {
                 Click to Donate{' '}
               </Button>
             </Box>
-          )}
+          }
+
           <Portal>
             <Backdrop
               sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}

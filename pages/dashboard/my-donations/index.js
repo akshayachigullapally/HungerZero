@@ -29,15 +29,17 @@ export default function AllListings() {
   const database = useDatabase()
 
   useEffect(() => {
-    database.getMyListings().then((res) => {
-      console.log(res)
-      setListings(res.documents)
-      setIsLoading(false)
-    }).catch((e) => {
-      console.log(e)
-      setIsLoading(false)
-    })
-  }, [])
+    if(isLoggedIn){
+      database.getMyListings().then((res) => {
+        console.log(res)
+        setListings(res.documents)
+        setIsLoading(false)
+      }).catch((e) => {
+        console.log(e)
+        setIsLoading(false)
+      })
+    }
+  }, [isLoggedIn])
 
   return (
     <CardGrid>

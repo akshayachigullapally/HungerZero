@@ -2,7 +2,6 @@ import Link from 'next/link'
 import {
   Box,
   Button,
-  Tooltip,
   Typography,
   CircularProgress,
   Portal,
@@ -16,20 +15,18 @@ import {useEffect, useState} from 'react'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
 import { GlobalContext } from '../../../utils/GlobalContextProvider'
 import useDatabase from '../../../hooks/useDatabase'
-import { client } from '../../../hooks/useAppwrite'
 import { useContext } from 'react'
 import { PreviewImage } from '../../../components/PreviewImage'
 import { toast } from 'react-toastify'
-import { useRouter } from 'next/router'
 
 export default function getAllListings() {
   const [listings, setListings] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   const database = useDatabase()
-  const { isLoggedIn } = useContext(GlobalContext)
 
   useEffect(() => {
+
     database.getAllListings().then((res) => {
       console.log(res)
       setListings(res.documents)
@@ -39,24 +36,22 @@ export default function getAllListings() {
 
   return (
     <>
-      {listings?.length === 0 && isLoggedIn && <CircularProgress />}
-      {
-        listings && 
-        <CardGrid>
-          {listings?.map((data) => (
-            <RequestCard
-              food={data}
-              key={data.id}
-              // disabled={!canJoin(ispo.epochEnd)}
-            />
-          ))}
-          {listings?.length === 0 && (
-            <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-              No offerings found
-            </Typography>
-          )}
-        </CardGrid>
-      }
+      <CardGrid>
+        {isLoading && <CircularProgress />}
+
+        {listings?.map((data) => (
+          <RequestCard
+            food={data}
+            key={data.$id}
+          />
+        ))}
+
+        {!isLoading && listings.length === 0 && (
+          <Typography variant="h5" sx={{fontWeight: 'bold'}}>
+            No offerings found
+          </Typography>
+        )}
+      </CardGrid>
     </>
   )
 }
@@ -70,9 +65,6 @@ function RequestCard({food, disabled = false}) {
   const database = useDatabase()
   
   const [form, setForm] = useState({})
-
-  const { isLoggedIn, user } = useContext(GlobalContext)
-  const router = useRouter()
 
   const handlePickupRequest = async() => {
     const pickup = {
@@ -128,24 +120,6 @@ function RequestCard({food, disabled = false}) {
   const handleChange = (e) => {
     setForm({...form, [e.target.name]: e.target.value})
   }
-
-  
-
-  useEffect(() => {
-    if(!isLoggedIn){
-      toast.error("You need to login First", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      })
-      router.push("/")
-    }
-  }, [])
 
   return (
     <CardGrid>
@@ -255,13 +229,6 @@ function RequestCard({food, disabled = false}) {
             </div>
           }
       />
-      {!isLoggedIn && (
-        <Box>
-          <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-            You are not logged in
-          </Typography>
-        </Box>
-      )}
       <Portal>
         <Backdrop
           sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}

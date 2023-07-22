@@ -29,19 +29,28 @@ export default function Ordered() {
   const database = useDatabase()
 
   useEffect(() => {
-    database.getMyRequestedFoods().then((res) => {
-      console.log(res)
-      setListings(res.filter((r) => r.status !== "delivered"))
-      // setListings(res)
-      setIsLoading(false)
-    }).catch((e) => {
-      console.log(e)
-      setIsLoading(false)
-    })
-  }, [])
+    if(isLoggedIn){
+      database.getMyRequestedFoods().then((res) => {
+        console.log(res)
+        setListings(res.filter((r) => r.status !== "delivered"))
+        // setListings(res)
+        setIsLoading(false)
+      }).catch((e) => {
+        console.log(e)
+        setIsLoading(false)
+      })
+    }
+  }, [isLoggedIn])
 
   return (
     <CardGrid>
+      {!isLoggedIn && (
+        <Box>
+          <Typography variant="h5" sx={{fontWeight: 'bold'}}>
+            You are not logged in
+          </Typography>
+        </Box>
+      )}
       {isLoading && isLoggedIn && <CircularProgress />}
       {!isLoading && listings?.map((food) => (
         <ListingCard
@@ -132,14 +141,7 @@ export default function Ordered() {
           }
         />
       ))}
-      {!isLoggedIn && (
-        <Box>
-          <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-            You are not logged in
-          </Typography>
-        </Box>
-      )}
-      {isLoggedIn && listings?.length === 0 && (
+      {!isLoading && listings.length === 0 && (
         <Box
           sx={{
             display: 'flex',
