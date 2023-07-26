@@ -7,13 +7,17 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Box, Button, Typography, Portal, Backdrop, CircularProgress, Link } from '@mui/material'
+import { Box, Button, Typography, Portal, Backdrop, CircularProgress, Link, collapseClasses } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { GlobalContext } from '../../../utils/GlobalContextProvider'
 import { useContext } from 'react'
 import useDatabase from '../../../hooks/useDatabase'
 import { toast } from 'react-toastify'
+import Grid from '@mui/material/Grid'
+import DoneIcon from '@mui/icons-material/Done'
+import ClearIcon from '@mui/icons-material/Clear'
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 
 const darkTheme = createTheme({
   palette: {
@@ -92,16 +96,35 @@ export default function ManageRequests() {
         })
     }
 
+    const styles = {
+      list: {
+        backgroundColor: "#ffffff",
+        margin: '0',
+        alignItems: 'center',
+        width: '100%',
+        borderRadius: '2rem',
+        marginTop: '.5rem',
+        "&:hover": {
+          backgroundColor: "#f1f1f1",
+          cursor: 'pointer',
+          boxShadow: '5px 5px 5px #aaaaaa'
+        },
+      },
+  
+      listCol: {
+        width: '100%',
+      }
+    }
+
   return (
     <>
-      <Box
-          sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '100%',
-        }}
-      >
+      <Box sx={{
+        display: requests.length === 0 ? 'flex': 'initial',
+        padding: '1rem',
+        minHeight: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
           {isLoading && isLoggedIn && <CircularProgress />}
 
           {!isLoggedIn && (
@@ -115,49 +138,69 @@ export default function ManageRequests() {
           {
             requests?.length > 0 &&
 
-            <ThemeProvider alignItems="center" theme={darkTheme}>
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Listing Id</TableCell>
-                      <TableCell align="right">Food Name</TableCell>
-                      <TableCell align="right">Requested By&nbsp(g)</TableCell>
-                      <TableCell align="right">Quantity</TableCell>
-                      <TableCell align="right">Status</TableCell>
-                      <TableCell align="right">Action</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {requests?.map((row, i) => (
-                      <TableRow
-                        key={i}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row?.listingId}
-                        </TableCell>
-                        <TableCell align="right">{row?.foodName}</TableCell>
-                        <TableCell align="right">{row?.requestedBy}</TableCell>
-                        <TableCell align="right">{row?.quantity}</TableCell>
-                        <TableCell align="right">{row?.status}</TableCell>
-                        <TableCell align="right">
-                        <Box>
-                            <Button onClick={() => handleAction("approved", row?.requestId, row?.requestedBy)}>Approve</Button>
-                            <Button onClick={() => handleAction("rejected", row?.requestId, row?.requestedBy)}>Reject</Button>
-                            <Button onClick={() => handleAction("delivered", row?.requestId, row?.requestedBy)}>Deliver</Button>
-                        </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </ThemeProvider>
+            <div>
+              <div>
+                <Grid container spacing={2}>
+                  <Grid item textAlign="center" sx={{color: 'black'}} xs={2.5}>
+                    <h4>Listing Id</h4>
+                  </Grid>
+                  <Grid item textAlign="center" sx={{color: 'black'}} xs={1.5}>
+                    <h4>Food Name</h4>
+                  </Grid>
+                  <Grid item textAlign="center" sx={{color: 'black'}} xs={3}>
+                    <h4>Requested By</h4>
+                  </Grid>
+                  <Grid item textAlign="center" sx={{color: 'black'}} xs={1}>
+                    <h4>Quantity</h4>
+                  </Grid>
+                  <Grid item textAlign="center" sx={{color: 'black'}} xs={1}>
+                    <h4>Status</h4>
+                  </Grid>
+                  <Grid item textAlign="center" sx={{color: 'black'}} xs={3}>
+                    <h4>Actions</h4>
+                  </Grid>
+                </Grid>
+              </div>
+
+              {
+                requests?.map((r, i) => (
+                  <Grid key={i} container spacing={2}
+                    className='list' padding={1} sx={styles.list}
+                  >
+                    <Grid className='listCol' sx={styles.listCol} textAlign="center" xs={2.5}>
+                      {r?.listingId}
+                    </Grid>
+                    <Grid className='listCol' sx={styles.listCol} textAlign="center" xs={1.5}>
+                      {r?.foodName}
+                    </Grid>
+                    <Grid className='listCol' sx={styles.listCol} textAlign="center" xs={3}>
+                      {r?.requestedBy}
+                    </Grid>
+                    <Grid className='listCol' sx={styles.listCol} textAlign="center" xs={1}>
+                      {r?.quantity}
+                    </Grid>
+                    <Grid className='listCol' sx={styles.listCol} textAlign="center" xs={1}>
+                      {r?.status}
+                    </Grid>
+                    <Grid className='listCol' sx={styles.listCol} textAlign="center" xs={3}>
+                      <Button onClick={() => handleAction("approved", r?.requestId, r?.requestedBy)}>
+                        <DoneIcon fontSize='small' />
+                      </Button>
+                      <Button onClick={() => handleAction("rejected", r?.requestId, r?.requestedBy)}>
+                        <ClearIcon fontSize='small' />
+                      </Button>
+                      <Button onClick={() => handleAction("delivered", r?.requestId, r?.requestedBy)}>
+                        <LocalShippingIcon fontSize='small' />
+                      </Button>
+                    </Grid>
+                  </Grid>
+                ))
+              }
+            </div>
           }
 
           {
-            !isLoading &&
+            !isLoading && requests?.length === 0 &&
 
             <Box
               sx={{
@@ -169,11 +212,8 @@ export default function ManageRequests() {
               }}
             >
               <Typography variant="h5" sx={{fontWeight: 'bold'}}>
-                No Donations Yet
+                No Requests Yet
               </Typography>
-              <Button variant="gradient" component={Link} href="/dashboard/donate">
-                Click to Donate{' '}
-              </Button>
             </Box>
           }
 

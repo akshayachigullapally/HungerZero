@@ -147,7 +147,7 @@ export default function AllListings() {
           </Typography>
         </Box>
       )}
-      {isLoggedIn && listings?.length === 0 && (
+      {!isLoading && isLoggedIn && listings?.length === 0 && (
         <Box
           sx={{
             display: 'flex',
