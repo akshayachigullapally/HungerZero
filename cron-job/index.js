@@ -17,7 +17,7 @@ client
 
 app.all('/', (req, res) => {
 
-    cron.schedule('*/10 * * * * *', async () => {
+    cron.schedule('*/1 * * * *', async () => {
         console.log('running cron job nishant')
 
         const today = new Date().toJSON().slice(0, 10)
@@ -28,22 +28,19 @@ app.all('/', (req, res) => {
             ]
         )
 
-        // console.log(today)
-
         var updatedListings = []
 
         for (const item of listings.documents) {
             if(item.expiryDate < today){
-                // console.log("expired", item.expiryDate)
-                let promise = await database.updateDocument("6487b6612888a096109c", "6487b78873ba81df31db", item.$id, {
-                    isExpired: true
-                })
+                try {
+                    await database.updateDocument(process.env.DATABASE_ID, process.env.COLLECTION_ID, item.$id, {
+                        isExpired: true
+                    })
 
-                promise.then(function (response) {
                     updatedListings.push(item)
-                }, function (error) {
+                } catch (error) {
                     console.log(error)
-                })
+                }
             }
         }
 
