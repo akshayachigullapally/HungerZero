@@ -1,12 +1,5 @@
 import * as React from 'react'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles'
 import { Box, Button, Typography, Portal, Backdrop, CircularProgress, Link, collapseClasses } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -18,12 +11,6 @@ import Grid from '@mui/material/Grid'
 import DoneIcon from '@mui/icons-material/Done'
 import ClearIcon from '@mui/icons-material/Clear'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-})
 
 export default function ManageRequests() {
     const database = useDatabase()
@@ -138,7 +125,7 @@ export default function ManageRequests() {
           {
             requests?.length > 0 &&
 
-            <div>
+            <div style={{marginInline: '1rem'}}>
               <div>
                 <Grid container spacing={2}>
                   <Grid item textAlign="center" sx={{color: 'black'}} xs={2.5}>
