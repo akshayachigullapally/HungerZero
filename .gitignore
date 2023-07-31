@@ -26,3 +26,6 @@ yarn-error.log*
 # local env files
 .env.local
 package-lock.json
+
+/cron-job/node_modules/
+/cron-job/.env

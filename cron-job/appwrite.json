@@ -1,0 +1,21 @@
+{
+    "projectId": "6487b639dc62b5a8f386",
+    "projectName": "Nishant",
+    "functions": [
+        {
+            "$id": "64c204343203116a3d2f",
+            "name": "RemoveExpiredFoodListing",
+            "runtime": "node-16.0",
+            "path": "functions/RemoveExpiredFoodListing",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "*/1 * * * *",
+            "timeout": 15
+        }
+    ]
+}
