@@ -7,8 +7,9 @@
 [![Top](https://img.shields.io/github/languages/top/shrinishant/HungerZero?style=for-the-badge&label=Top%20Languages)](https://github.com/shrinishant/HungerZero)
 [![Issues](https://img.shields.io/github/issues/shrinishant/HungerZero?style=for-the-badge&label=Issues)](https://github.com/shrinishant/HungerZero)
 
-![Alt text](https://drive.google.com/file/d/13I46B2P6BKSl5XSZI16cBmV2Ia3wPXQ7/view?usp=sharing)
+##
 
+  ![HungerZero](https://github.com/shrinishant/HungerZero/assets/74295596/812ae7c1-1323-4598-aaa5-fad529f8ff80)
 
 ## Table of Contents
 
@@ -74,24 +75,33 @@ Ensure you have the necessary environment variables set for the Appwrite project
 
 ## Demo
 
-- If the user is not logged in then they cannot access any pages except for the All Foods page to see all the available foods as shown below:
-
-    ![Not Logged In Gif](https://drive.google.com/file/d/1LwArH8VvN_KpUi70mSCA9NmSP9zWynZj/view?usp=sharing)
-
 - Donators can donate Food:
-    ![Donate Food](https://drive.google.com/file/d/178EbxXKLu18vFjnj-mqB9I1wsbJ_bPrQ/view?usp=sharing)
+  
+  ![Screenshot (550)](https://github.com/shrinishant/HungerZero/assets/74295596/9c7045a8-5c82-44f6-8018-7cde93b8918c)
+
 
 - All Donations of Donator:
-    ![Donated Foods](https://drive.google.com/file/d/1im4ITgQqG_tmz5AJB7MiOC4zUmgF5w9b/view?usp=sharing)
+  
+    ![Screenshot (549)](https://github.com/shrinishant/HungerZero/assets/74295596/37503b4f-91f9-4d17-88fe-ae21205dbe60)
+
 
 - Users can find All Foods and request for the same:
-    ![All Foods](https://drive.google.com/file/d/1BJ9uO_W4uEb9HRLWSDc0EXkgzJtzPHIO/view?usp=sharing)
+  
+    ![Screenshot (552)](https://github.com/shrinishant/HungerZero/assets/74295596/f84ab421-54ab-4267-b4a3-22f7ee7f8ec4)
+
 
 - Users can find their requested foods with the status of rejected, delivered or accepted:
-    ![Requested Foods](https://drive.google.com/file/d/1g-wae7MLVckYYUMnSWFrT99_oOVvxxIh/view?usp=sharing)
+  
+    ![Screenshot (553)](https://github.com/shrinishant/HungerZero/assets/74295596/c7b790af-8388-40e4-af68-2de174c016aa)
 
 - Donators can find all the Requests received:
-    ![Manage Pickups](https://drive.google.com/file/d/18rijD11QPOK9b3sV18ZBEGo84uYumKvE/view?usp=sharing)
+  
+    ![Screenshot (551)](https://github.com/shrinishant/HungerZero/assets/74295596/eb6a5965-993d-4f22-be84-e13c8c86bcc8)
+
+- If the user is not logged in then they cannot access any pages except for the All Foods page to see all the available foods as shown below:
+  
+    ![Untitled design](https://github.com/shrinishant/HungerZero/assets/74295596/c219c08a-236e-4488-a18d-caaf4a27417a)
+
 
 ## Contributions
 
