@@ -56,7 +56,6 @@ module.exports = async function (req, res) {
                     })
 
                     updatedListings.push(item)
-                    break
                 } catch (error) {
                     console.log(error)
                 }

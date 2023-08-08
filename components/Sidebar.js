@@ -127,7 +127,7 @@ export default function Sidebar(props) {
           gap: 1,
         }}
       >
-        <img src="../assets/images/logo.png" alt="HungerZero" height={40} width={40} />
+        <img src="/logo.png" alt="HungerZero" style={{paddingTop: '1rem', backgroundBlendMode: 'screen'}} height={100} width={100} />
         <Box
           sx={{
             background: `-webkit-${generateGradient(1, 1)}`,
@@ -136,7 +136,6 @@ export default function Sidebar(props) {
             fontWeight: 700,
           }}
         >
-          HungerZero
         </Box>
       </Toolbar>
 

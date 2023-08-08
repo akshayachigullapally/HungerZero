@@ -88,15 +88,6 @@ const Register = () => {
         <TextField label="Name" fullWidth value={name} onChange={handleNameChange} sx={{ marginBottom: 2 }} />
         <TextField label="Email" fullWidth value={email} onChange={handleEmailChange} sx={{ marginBottom: 2 }} />
         <TextField label="Password" type="password" fullWidth value={password} onChange={handlePasswordChange} sx={{ marginBottom: 2 }} />
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Select User Type</FormLabel>
-            <RadioGroup row aria-label="userType" name="userType" value={userType} onChange={handleUserTypeChange}>
-              <FormControlLabel value="user" control={<Radio color="primary" />} label="User" />
-              <FormControlLabel value="provider" control={<Radio color="primary" />} label="Provider" />
-            </RadioGroup>
-          </FormControl>
-        </div>
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
           Register
         </Button>
