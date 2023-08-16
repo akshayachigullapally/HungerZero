@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid'
 import DoneIcon from '@mui/icons-material/Done'
 import ClearIcon from '@mui/icons-material/Clear'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
+import Tooltip from '@mui/material/Tooltip'
 
 export default function ManageRequests() {
     const database = useDatabase()
@@ -171,13 +172,19 @@ export default function ManageRequests() {
                     </Grid>
                     <Grid className='listCol' sx={styles.listCol} textAlign="center" xs={3}>
                       <Button onClick={() => handleAction("approved", r?.requestId, r?.requestedBy)}>
-                        <DoneIcon fontSize='small' />
+                        <Tooltip title="Approve Request" arrow>
+                          <DoneIcon fontSize='small' />
+                        </Tooltip>
                       </Button>
                       <Button onClick={() => handleAction("rejected", r?.requestId, r?.requestedBy)}>
-                        <ClearIcon fontSize='small' />
+                        <Tooltip title="Reject Request" arrow>
+                          <ClearIcon fontSize='small' />
+                        </Tooltip>
                       </Button>
                       <Button onClick={() => handleAction("delivered", r?.requestId, r?.requestedBy)}>
-                        <LocalShippingIcon fontSize='small' />
+                        <Tooltip title="Deliver Request" arrow>
+                          <LocalShippingIcon fontSize='small' />
+                        </Tooltip>
                       </Button>
                     </Grid>
                   </Grid>
