@@ -238,9 +238,6 @@ export function CreateListingForm({onSubmit: _onSubmit}) {
             !submitted ? (
               <>
                 <Card title="Create New Food Listing">
-                  <Alert severity="info" sx={{my: 1}}>
-                    [Hackathon version limitation]
-                  </Alert>
                   <FormProvider {...form}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <Box

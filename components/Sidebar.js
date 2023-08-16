@@ -127,7 +127,7 @@ export default function Sidebar(props) {
           gap: 1,
         }}
       >
-        <img src="/logo.png" alt="HungerZero" style={{paddingTop: '1rem', backgroundBlendMode: 'screen'}} height={100} width={100} />
+        <img src="/logo.png" alt="HungerZero" style={{paddingTop: '1rem', backgroundBlendMode: 'screen'}} height={90} width={90} />
         <Box
           sx={{
             background: `-webkit-${generateGradient(1, 1)}`,
@@ -139,7 +139,7 @@ export default function Sidebar(props) {
         </Box>
       </Toolbar>
 
-      <List sx={{px: 1}}>
+      <List sx={{px: 1, mt: 3}}>
         {navList.map(({category, links}, index) => (
           <Box key={category} pb={2}>
             <Typography

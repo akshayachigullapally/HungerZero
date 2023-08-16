@@ -63,6 +63,7 @@ function RequestCard({food, disabled = false}) {
   const [quantity, setQuantity] = useState(food.quantity)
 
   const database = useDatabase()
+  const { user } = useContext(GlobalContext)
   
   const [form, setForm] = useState({})
 

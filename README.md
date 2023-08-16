@@ -43,7 +43,7 @@ The Surplus Food Management Platform is a web application developed to address t
 - Styling: CSS modules, Material-UI
 - Hosting: Vercel (Frontend), Appwrite (Backend)
 - Additional Services: Email notifications (Appwrite Functions)
-
+- Cloud Functions: [Associated Repository](https://github.com/shrinishant/CloudFunctions-HungerZero)
 ## Getting Started
 
 To run the project locally, follow these steps:
